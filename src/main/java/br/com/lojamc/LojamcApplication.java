@@ -1,13 +1,30 @@
 package br.com.lojamc;
 
+import br.com.lojamc.domain.Categoria;
+import br.com.lojamc.repositories.CategoriaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Arrays;
+
 @SpringBootApplication
-public class LojamcApplication {
+public class LojamcApplication implements CommandLineRunner {
+
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LojamcApplication.class, args);
 	}
 
+	@Override
+	public void run(String... args) throws Exception {
+		Categoria cat1 = new Categoria(null,"Informática");
+		Categoria cat2 = new Categoria(null,"Escritório");
+
+		categoriaRepository.saveAll(Arrays.asList(cat1,cat2));
+
+	}
 }
