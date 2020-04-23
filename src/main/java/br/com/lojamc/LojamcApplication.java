@@ -1,13 +1,8 @@
 package br.com.lojamc;
 
-import br.com.lojamc.domain.Categoria;
-import br.com.lojamc.domain.Cidade;
-import br.com.lojamc.domain.Estado;
-import br.com.lojamc.domain.Produto;
-import br.com.lojamc.repositories.CategoriaRepository;
-import br.com.lojamc.repositories.CidadeRepository;
-import br.com.lojamc.repositories.EstadoRepository;
-import br.com.lojamc.repositories.ProdutoRepository;
+import br.com.lojamc.domain.*;
+import br.com.lojamc.domain.enuns.TipoCliente;
+import br.com.lojamc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,6 +21,10 @@ public class LojamcApplication implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LojamcApplication.class, args);
@@ -63,6 +62,18 @@ public class LojamcApplication implements CommandLineRunner {
 
 		estadoRepository.saveAll(Arrays.asList(est1,est2));
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria.silva@gmail.com","36378912377", TipoCliente.PESSOA_FISICA);
+		cli1.getTelefones().addAll(Arrays.asList("45457859","44557789"));
+
+		Endereco e1 = new Endereco(null,"Rua Frores","300","Apto 303","Jardim","78456589",cli1,c1);
+		Endereco e2 = new Endereco(null,"Av. Matos","105","Sala 800","Centro","7878998",cli1,c2);
+
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2));
+
 
 
 	}
